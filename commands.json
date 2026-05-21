@@ -1,0 +1,1418 @@
+{
+  "*": {
+    "title": "Write to AI",
+    "format": "[text]",
+    "description": "Any command without / start will go to AI window.",
+    "category": "tab",
+    "params": [
+      {
+        "name": "text",
+        "type": "string",
+        "desc": "Tell AI in console"
+      }
+    ],
+    "returns": "None",
+    "example": "Hi Tahcia"
+  },
+  "chrome": {
+    "title": "Open google chrome",
+    "format": "/chrome",
+    "description": "Open a new window if not found, or bring active one front.",
+    "category": "tab",
+    "params": [],
+    "returns": "N/A",
+    "example": "/chrome"
+  },
+  "tab": {
+    "title": "Change/Open Tab",
+    "format": "/tab [*tabname] [flag] [input]",
+    "description": "Switch/set/open a specific tab. Call /store.tab newAlias to use the new tab in the script. ",
+    "category": "tab",
+    "params": [
+      {
+        "name": "tabname",
+        "type": "string|scripting only",
+        "desc": "Either tabs[] variable alias or new to open new tab. Doesn't work for direct terminal prompt."
+      },
+      {
+        "name": "flag",
+        "type": "string|optional",
+        "desc": "-ifnotcurrent to change current tab, (ignore if already is) & -ifnotfound to check if any opened tabs has the url. Valid only when input is url."
+      },
+      {
+        "name": "input",
+        "type": "string|number",
+        "desc": "Tab number to switch to, url, or search query to Google"
+      }
+    ],
+    "returns": "tabId of affected tab.",
+    "example": "/tab 3"
+  },
+  "reload": {
+    "title": "Reload Page",
+    "format": "/reload",
+    "description": "Reload the current tab",
+    "category": "tab",
+    "params": [],
+    "returns": "None",
+    "example": "/reload"
+  },
+  "focus": {
+    "title": "Tab Focus",
+    "format": "/focus",
+    "description": "Make current tab active",
+    "category": "tab",
+    "params": [],
+    "returns": "None",
+    "example": "/focus"
+  },
+  "screenshot": {
+    "title": "Take Screenshot",
+    "format": "/screenshot",
+    "description": "Capture a screenshot of the current tab. This command also allows DOM to update (eg. After click, url change, etc).",
+    "category": "tab",
+    "params": [],
+    "returns": "Screenshot image data",
+    "example": "/screenshot"
+  },
+  "ss.save": {
+    "title": "Save Screenshot",
+    "format": "/ss.save",
+    "description": "Save the last screenshot png to disk. It prompts user where to save the file.",
+    "category": "tab",
+    "params": [],
+    "returns": "None",
+    "example": "/ss.save"
+  },
+  "ss.last": {
+    "title": "Get Last Screenshot",
+    "format": "/ss.last",
+    "description": "Return Base64 of last screenshot",
+    "category": "tab",
+    "params": [],
+    "returns": "None",
+    "example": "/ss.last"
+  },
+  "ss.pixel": {
+    "title": "Get Pixel Color of Screenshot",
+    "format": "/ss.pixel [x] [y]",
+    "description": "Return rgba, hex, and normalized rgba of last screenshot pixel",
+    "category": "tab",
+    "params": [
+      {
+        "name": "x",
+        "type": "number",
+        "desc": "X coordinate (0.0-1.0 relative to screenshot)"
+      },
+      {
+        "name": "y",
+        "type": "number",
+        "desc": "Y coordinate (0.0-1.0 relative to screenshot)"
+      }
+    ],
+    "returns": "None",
+    "example": "/ss.pixel 0.2 0.4"
+  },
+  "xpath": {
+    "title": "Get DOM XPath",
+    "format": "/xpath [x] [y]",
+    "description": "Get XPath of element at specified coordinates",
+    "category": "dom",
+    "params": [
+      {
+        "name": "x",
+        "type": "number",
+        "desc": "X coordinate (0.0-1.0 relative to screenshot)"
+      },
+      {
+        "name": "y",
+        "type": "number",
+        "desc": "Y coordinate (0.0-1.0 relative to screenshot)"
+      }
+    ],
+    "returns": "XPath string of the element in the screenshot at the position",
+    "example": "/xpath 0.3 0.4  - Get XPath of element at 30% width, 40% height"
+  },
+  "xpath.decode": {
+    "title": "Decode xpath",
+    "format": "/xpath.decode [s]",
+    "description": "Decode encoded xpath for tahcia purpose.",
+    "category": "dom",
+    "params": [
+      {
+        "name": "s",
+        "type": "string",
+        "desc": "tahcia-encoded xpath"
+      }
+    ],
+    "returns": "Real xpath value",
+    "example": "/xpath.decode :abc123"
+  },
+  "xpath.encode": {
+    "title": "Encode xpath",
+    "format": "/xpath.encode [s]",
+    "description": "Encode xpath for tahcia purpose.",
+    "category": "dom",
+    "params": [
+      {
+        "name": "s",
+        "type": "string",
+        "desc": "xpath"
+      }
+    ],
+    "returns": "Encoded xpath value",
+    "example": "/xpath.encode //html/body/div[1]"
+  },
+  "fetch": {
+    "title": "REST Call",
+    "format": "/fetch [method] [url] [{body}]",
+    "description": "Make HTTP requests to APIs",
+    "slines": 1,
+    "category": "network",
+    "params": [
+      {
+        "name": "method",
+        "type": "string",
+        "desc": "HTTP method (GET, POST, PUT, DELETE, etc.)"
+      },
+      {
+        "name": "url",
+        "type": "string",
+        "desc": "Target URL"
+      },
+      {
+        "name": "body",
+        "type": "string",
+        "desc": "JSON body for POST/PUT, {} for GET"
+      }
+    ],
+    "returns": "Response data from the url. Set to $last.",
+    "example": "/fetch GET \"https://api.github.com/users/octocat\" \"{}\""
+  },
+  "elements": {
+    "title": "Get all elements",
+    "format": "/elements",
+    "description": "Extract most useful elements in a the innerHTML",
+    "slines": 1,
+    "category": "network",
+    "params": [],
+    "returns": "List of element, its normalized and absolute positions.",
+    "example": "/elements"
+  },
+  "query": {
+    "title": "Get html content based on query",
+    "format": "/query [prompt]",
+    "description": "Use natural language to locate text in the page.",
+    "category": "ai",
+    "params": [
+      {
+        "name": "prompt",
+        "type": "string",
+        "desc": "Natural language description of what to locate in the screenshot"
+      }
+    ],
+    "slines": 1,
+    "returns": "HTML content of matching intent",
+    "example": "/query \"email in the footer\""
+  },
+  "scroll": {
+    "title": "Scroll To DOM",
+    "format": "/scroll [selector] [xOffset] [yOffset]",
+    "description": "Read text content at specified xpath/element",
+    "category": "dom",
+    "params": [
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the element"
+      },
+      {
+        "name": "xOffset",
+        "type": "number|optional",
+        "desc": "When set, X & Y should come together"
+      },
+      {
+        "name": "yOffset",
+        "type": "number|optional",
+        "desc": "When set, X & Y should come together"
+      }
+    ],
+    "returns": "None",
+    "example": "/scroll \"//*[@id=\\\"abc\\\"]/div[2]/div/span[1]\""
+  },
+  "read": {
+    "title": "Read DOM",
+    "format": "/read [selector] [selector2]",
+    "description": "Read text content at specified xpath/element",
+    "category": "dom",
+    "params": [
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the element"
+      },
+      {
+        "name": "selector2",
+        "type": "string|optional",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the element"
+      }
+    ],
+    "returns": "Text content of the element, or capture JSON of text arrays within common parent.",
+    "example": "/read \"//*[@id=\\\"cmd-ss.save\\\"]/div[2]/div/span[1]\""
+  },
+  "attr": {
+    "title": "Get DOM Attribute",
+    "format": "/attr [selector] [attribute]",
+    "description": "Read string attribute of DOM at specified xpath/element",
+    "category": "dom",
+    "params": [
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the element"
+      },
+      {
+        "name": "attribute",
+        "type": "string",
+        "desc": "Html Element attribute name."
+      }
+    ],
+    "returns": "String of the attribute",
+    "example": "/attr .button class"
+  },
+  "property": {
+    "title": "Get DOM Property",
+    "format": "/attr [selector] [keys]",
+    "description": "Read property of DOM at specified xpath/element",
+    "category": "dom",
+    "params": [
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the element"
+      },
+      {
+        "name": "keys",
+        "type": "string",
+        "desc": "property/array style selector"
+      }
+    ],
+    "returns": "String of the property. Won't work with object.",
+    "example": "/attr .button children[0].style.border"
+  },
+  "el.center": {
+    "title": "Get Element Center Coordinates",
+    "format": "/el.center [var_x] [var_y] [selector]",
+    "description": "Gets the center X and Y coordinates of a DOM element and stores them in variables",
+    "category": "dom",
+    "params": [
+      {
+        "name": "var_x",
+        "type": "string",
+        "desc": "Variable name to store X coordinate (center)"
+      },
+      {
+        "name": "var_y",
+        "type": "string",
+        "desc": "Variable name to store Y coordinate (center)"
+      },
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the element"
+      }
+    ],
+    "returns": "Sets variables with coordinates, returns empty string",
+    "example": "/el.center x y //button[@id='submit']"
+  },
+  "el.top": {
+    "title": "Get Element Top Coordinate",
+    "format": "/el.top [var_y] [selector]",
+    "description": "Gets the top Y coordinate of a DOM element and stores it in a variable",
+    "category": "dom",
+    "params": [
+      {
+        "name": "var_y",
+        "type": "string",
+        "desc": "Variable name to store top Y coordinate"
+      },
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the element"
+      }
+    ],
+    "returns": "Sets variable with top coordinate, returns the value",
+    "example": "/el.top y //div[@class='header']"
+  },
+  "el.bottom": {
+    "title": "Get Element Bottom Coordinate",
+    "format": "/el.bottom [var_y] [selector]",
+    "description": "Gets the bottom Y coordinate of a DOM element and stores it in a variable",
+    "category": "dom",
+    "params": [
+      {
+        "name": "var_y",
+        "type": "string",
+        "desc": "Variable name to store bottom Y coordinate"
+      },
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the element"
+      }
+    ],
+    "returns": "Sets variable with bottom coordinate, returns the value",
+    "example": "/el.bottom y //div[@class='footer']"
+  },
+  "el.width": {
+    "title": "Get Element Width",
+    "format": "/el.width [w] [selector]",
+    "description": "Gets the width of a DOM element and stores it in a variable",
+    "category": "dom",
+    "params": [
+      {
+        "name": "w",
+        "type": "string",
+        "desc": "Variable name to store width"
+      },
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the element"
+      }
+    ],
+    "returns": "Sets variable with width, returns the value",
+    "example": "/el.width w //div[@class='footer']"
+  },
+  "el.height": {
+    "title": "Get Element Height",
+    "format": "/el.width [h] [selector]",
+    "description": "Gets the height of a DOM element and stores it in a variable",
+    "category": "dom",
+    "params": [
+      {
+        "name": "h",
+        "type": "string",
+        "desc": "Variable name to store height"
+      },
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the element"
+      }
+    ],
+    "returns": "Sets variable with height, returns the value",
+    "example": "/el.height h //div[@class='footer']"
+  },
+  "el.left": {
+    "title": "Get Element Left Coordinate",
+    "format": "/el.left [var_x] [selector]",
+    "description": "Gets the left X coordinate of a DOM element and stores it in a variable",
+    "category": "dom",
+    "params": [
+      {
+        "name": "var_x",
+        "type": "string",
+        "desc": "Variable name to store left X coordinate"
+      },
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the element"
+      }
+    ],
+    "returns": "Sets variable with left coordinate, returns the value",
+    "example": "/el.left x //div[@id='sidebar']"
+  },
+  "el.right": {
+    "title": "Get Element Right Coordinate",
+    "format": "/el.right [var_x] [selector]",
+    "description": "Gets the right X coordinate of a DOM element and stores it in a variable",
+    "category": "dom",
+    "params": [
+      {
+        "name": "var_x",
+        "type": "string",
+        "desc": "Variable name to store right X coordinate"
+      },
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the element"
+      }
+    ],
+    "returns": "Sets variable with right coordinate, returns the value",
+    "example": "/el.right x //div[@id='container']"
+  },
+  "fill": {
+    "title": "Fill input",
+    "format": "/fill [selector] [string]",
+    "description": "Fill a form input with text",
+    "category": "dom",
+    "params": [
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the input element"
+      },
+      {
+        "name": "text",
+        "type": "string",
+        "desc": "Text to fill in the input"
+      }
+    ],
+    "returns": "None",
+    "example": "/fill \"#search-input\" \"burning bush\""
+  },
+  "click": {
+    "title": "Click Element",
+    "format": "/click [selector]",
+    "description": "Click on an element using CSS selector",
+    "category": "dom",
+    "params": [
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the element"
+      }
+    ],
+    "returns": "None",
+    "example": "/click \".nav-item.active\""
+  },
+  "click.el.at": {
+    "title": "Click at position",
+    "format": "/click.el.at [x] [y]",
+    "description": "Click element at x & y",
+    "category": "dom",
+    "params": [
+      {
+        "name": "x",
+        "type": "number",
+        "desc": "X coordinate (0.0-1.0 relative to screenshot)"
+      },
+      {
+        "name": "y",
+        "type": "number",
+        "desc": "Y coordinate (0.0-1.0 relative to screenshot)"
+      }
+    ],
+    "returns": "None",
+    "example": "/click.el.at .5 0.2"
+  },
+  "hover.el.at": {
+    "title": "Hover at position",
+    "format": "/hover.el.at [x] [y]",
+    "description": "Hover element at x & y",
+    "category": "dom",
+    "params": [
+      {
+        "name": "x",
+        "type": "number",
+        "desc": "X coordinate (0.0-1.0 relative to screenshot)"
+      },
+      {
+        "name": "y",
+        "type": "number",
+        "desc": "Y coordinate (0.0-1.0 relative to screenshot)"
+      }
+    ],
+    "returns": "None",
+    "example": "/hover.el.at .5 0.2"
+  },
+  "fill.el.at": {
+    "title": "Fill DOM at position",
+    "format": "/fill.el.at [x] [y] [text]",
+    "description": "Fill element at x & y with text",
+    "category": "dom",
+    "params": [
+      {
+        "name": "x",
+        "type": "number",
+        "desc": "X coordinate (0.0-1.0 relative to screenshot)"
+      },
+      {
+        "name": "y",
+        "type": "number",
+        "desc": "Y coordinate (0.0-1.0 relative to screenshot)"
+      },
+      {
+        "name": "text",
+        "type": "string",
+        "desc": "Text to set"
+      }
+    ],
+    "returns": "None",
+    "example": "/fill.el.at .5 0.2"
+  },
+  "scroll.el.at": {
+    "title": "Scroll Element at Position",
+    "format": "/scroll.el.at [px] [py] [scrollX] [scrollY]",
+    "description": "Finds element at absolute screen coordinates (px,py), then scrolls that element by specified amounts",
+    "category": "scroll",
+    "params": [
+      {
+        "name": "px",
+        "type": "number",
+        "desc": "Absolute X screen coordinate to find element"
+      },
+      {
+        "name": "py",
+        "type": "number",
+        "desc": "Absolute Y screen coordinate to find element"
+      },
+      {
+        "name": "scrollX",
+        "type": "number",
+        "desc": "Horizontal scroll amount (pixels). Use -1 for no horizontal scroll"
+      },
+      {
+        "name": "scrollY",
+        "type": "number",
+        "desc": "Vertical scroll amount (pixels). Use -1 for no vertical scroll"
+      }
+    ],
+    "returns": "Returns empty string on success",
+    "example": "/scroll.el.at 500 300 -1 100"
+  },
+  "source": {
+    "title": "Get HTML Source",
+    "format": "/source",
+    "description": "Gets the current HTML source code of the active browser tab",
+    "category": "dom",
+    "params": [],
+    "returns": "Returns the complete HTML source as a string",
+    "example": "/source"
+  },
+  "store.url": {
+    "title": "Store Current URL",
+    "format": "/store.url [variable]",
+    "description": "Stores the current browser tab's URL into a variable",
+    "category": "store",
+    "params": [
+      {
+        "name": "variable",
+        "type": "string",
+        "desc": "Variable name to store the URL"
+      }
+    ],
+    "returns": "Returns the stored URL",
+    "example": "/store.url current_url"
+  },
+  "mac.mouse.move": {
+    "title": "Move Mouse",
+    "format": "/mac.mouse.move [x] [y] [time]",
+    "description": "Tell OS to move mouse",
+    "category": "control",
+    "params": [
+      {
+        "name": "x",
+        "type": "number",
+        "desc": "x coordinate"
+      },
+      {
+        "name": "y",
+        "type": "number",
+        "desc": "y coordinate"
+      },
+      {
+        "name": "time",
+        "type": "number",
+        "desc": "milliseconds"
+      }
+    ],
+    "returns": "None",
+    "example": "/mac.mouse.move 100 100 1000"
+  },
+  "mac.mouse.drag": {
+    "title": "Mouse Drag",
+    "format": "/mac.mouse.drag [x] [y] [ex] [xy] [time]",
+    "description": "Tell OS to drag using mouse",
+    "category": "control",
+    "params": [
+      {
+        "name": "x",
+        "type": "number",
+        "desc": "start x coordinate"
+      },
+      {
+        "name": "y",
+        "type": "number",
+        "desc": "start y coordinate"
+      },
+      {
+        "name": "ex",
+        "type": "number",
+        "desc": "end x coordinate"
+      },
+      {
+        "name": "ey",
+        "type": "number",
+        "desc": "end y coordinate"
+      },
+      {
+        "name": "time",
+        "type": "number",
+        "desc": "milliseconds"
+      }
+    ],
+    "returns": "None",
+    "example": "/mac.mouse.drag 100 100 1000"
+  },
+  "mac.mouse.click": {
+    "title": "Move Click",
+    "format": "/mac.mouse.click [x] [y] [hold]",
+    "description": "Tell OS to click mouse",
+    "category": "control",
+    "params": [
+      {
+        "name": "x",
+        "type": "number",
+        "desc": "x coordinate"
+      },
+      {
+        "name": "y",
+        "type": "number",
+        "desc": "y coordinate"
+      },
+      {
+        "name": "hold",
+        "type": "number",
+        "desc": "milliseconds"
+      }
+    ],
+    "returns": "None",
+    "example": "/mac.mouse.click 200 200 10"
+  },
+  "mac.mouse.dblclick": {
+    "title": "Move Double Click",
+    "format": "/mac.mouse.dblclick [x] [y] [hold]",
+    "description": "Tell OS to double click mouse",
+    "category": "control",
+    "params": [
+      {
+        "name": "x",
+        "type": "number",
+        "desc": "x coordinate"
+      },
+      {
+        "name": "y",
+        "type": "number",
+        "desc": "y coordinate"
+      },
+      {
+        "name": "hold",
+        "type": "number",
+        "desc": "milliseconds"
+      }
+    ],
+    "returns": "None",
+    "example": "/mac.mouse.dblclick 200 200 10"
+  },
+  "mac.key.type": {
+    "title": "Type Text",
+    "format": "/mac.key.type [text]",
+    "description": "Tell OS to simulate typing",
+    "category": "control",
+    "params": [
+      {
+        "name": "text",
+        "type": "string",
+        "desc": "text to type"
+      }
+    ],
+    "returns": "None",
+    "example": "/mac.key.type hello there!"
+  },
+  "mac.key.enter": {
+    "title": "Press enter",
+    "format": "/mac.key.enter",
+    "description": "Tell OS to press enter",
+    "category": "control",
+    "params": [],
+    "returns": "None",
+    "example": "/mac.key.enter 200 200 10"
+  },
+  "mac.open": {
+    "title": "Open App",
+    "format": "/mac.open [bundle_id]",
+    "description": "Launch a non-running desktop application using its bundle identifier string.",
+    "category": "control",
+    "params": [
+      {
+        "name": "bundle_id",
+        "type": "string",
+        "desc": "Mac application bundle id (e.g. com.apple.Terminal)"
+      }
+    ],
+    "returns": "JSON string string with success status",
+    "example": "/mac.open com.apple.Terminal"
+  },
+  "mac.focus": {
+    "title": "Focus App",
+    "format": "/mac.focus [bundle_id]",
+    "description": "Bring an already running desktop application window into foreground focus.",
+    "category": "control",
+    "params": [
+      {
+        "name": "bundle_id",
+        "type": "string",
+        "desc": "Target application bundle id"
+      }
+    ],
+    "returns": "JSON string string with success status",
+    "example": "/mac.focus com.google.Chrome"
+  },
+  "mac.pixel": {
+    "title": "Get Pixel Color",
+    "format": "/mac.pixel [x] [y]",
+    "description": "Capture RGBA, Hex, and normalized color data of a single screen pixel.",
+    "category": "query",
+    "params": [
+      {
+        "name": "x",
+        "type": "number",
+        "desc": "Target X pixel coordinate"
+      },
+      {
+        "name": "y",
+        "type": "number",
+        "desc": "Target Y pixel coordinate"
+      }
+    ],
+    "returns": "JSON containing rgba, hex, and normalized objects",
+    "example": "/mac.pixel 100 500"
+  },
+  "mac.screenshot": {
+    "title": "Get desktop screenshot",
+    "format": "/mac.screenshot",
+    "description": "Capture mac screenshot. CLI installation required.",
+    "category": "query",
+    "params": [],
+    "returns": "Base64 image data",
+    "example": "/mac.screenshot"
+  },
+  "mac.ocr": {
+    "title": "Screen OCR",
+    "format": "/mac.ocr",
+    "description": "Perform screen-wide text recognition to extract all text blocks and center point coordinates.",
+    "category": "query",
+    "params": [],
+    "returns": "Array of JSON objects with text, coordinates, scale, and bounding boxes",
+    "example": "/mac.ocr"
+  },
+  "mac.windows": {
+    "title": "List Windows",
+    "format": "/mac.windows",
+    "description": "Retrieve an array list of all currently open and visible window objects.",
+    "category": "query",
+    "params": [],
+    "returns": "Array of JSON objects containing bundleId and bound specifications",
+    "example": "/mac.windows"
+  },
+  "mac.key.shortcut": {
+    "title": "Execute Keyboard Shortcut",
+    "format": "/mac.key.shortcut [keys...]",
+    "description": "Simultaneously holds modifier flags and hits targeted terminal keys.",
+    "category": "control",
+    "params": [
+      {
+        "name": "keys",
+        "type": "string",
+        "desc": "Space-separated sequence of keys (e.g. 'cmd shift q')"
+      }
+    ],
+    "returns": "None",
+    "example": "/mac.key.shortcut cmd shift q"
+  },
+  "clipboard.write": {
+    "title": "Set clipboard",
+    "format": "/clipboard.write [text]",
+    "description": "Writes text to the clipboard.",
+    "category": "clipboard",
+    "params": [
+      {
+        "name": "text",
+        "type": "string",
+        "desc": "anything"
+      }
+    ],
+    "returns": "None",
+    "example": "/clipboard.write abc abc"
+  },
+  "copy": {
+    "title": "Copy from Element",
+    "format": "/copy [selector] [start:end] [regex?]",
+    "description": "Reads the text content of a DOM element, optionally extracts a substring via regex, and writes it to the clipboard.",
+    "category": "clipboard",
+    "params": [
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath or CSS selector of the source element"
+      },
+      {
+        "name": "start:end",
+        "type": "number:number",
+        "desc": "Indexes of copied string"
+      },
+      {
+        "name": "regex",
+        "type": "string",
+        "desc": "Regex pattern to extract a sub-string. Capture group 1 is preferred, else full match."
+      }
+    ],
+    "returns": "copied text",
+    "example": "/copy \".price-tag\" \"\\$([\\d,]+\\.\\d{2})\""
+  },
+  "paste": {
+    "title": "Paste into Element",
+    "format": "/paste [selector] [index] [regex]",
+    "description": "Pastes current clipboard into a target element with index and or regex.",
+    "category": "clipboard",
+    "params": [
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the target element"
+      },
+      {
+        "name": "index",
+        "type": "string",
+        "desc": "Index where cursor is in input, used only when regex fails."
+      },
+      {
+        "name": "regex",
+        "type": "string",
+        "desc": "Regex must contain \"(PASTE_HERE)\". "
+      }
+    ],
+    "returns": "None",
+    "example": "/paste \"#search-input\" 3 abc(PASTE_HERE)\\w+ "
+  },
+  "hover": {
+    "title": "Hover Element",
+    "format": "/hover [selector]",
+    "description": "Hover on an element using CSS selector",
+    "category": "dom",
+    "params": [
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the element"
+      }
+    ],
+    "returns": "None",
+    "example": "/hover \".nav-item.active\""
+  },
+  "point": {
+    "title": "Point a position with dot",
+    "format": "/point [x] [y]",
+    "description": "Hover on an element using CSS selector",
+    "category": "dom",
+    "params": [
+      {
+        "name": "x",
+        "type": "number",
+        "desc": "X coordinate (0.0-1.0 relative to screenshot)"
+      },
+      {
+        "name": "y",
+        "type": "number",
+        "desc": "Y coordinate (0.0-1.0 relative to screenshot)"
+      }
+    ],
+    "returns": "None",
+    "example": "/point 0.5 0.5"
+  },
+  "note": {
+    "title": "Show Note Popup On Tab",
+    "format": "/note [action] [text]",
+    "description": "Show commands run and or custom message on controlled tabs.",
+    "category": "dom",
+    "params": [
+      {
+        "name": "action",
+        "type": "string",
+        "desc": "show or hide"
+      },
+      {
+        "name": "text",
+        "type": "string|optional",
+        "desc": "custom message"
+      }
+    ],
+    "returns": "None",
+    "example": "/note hide | /note show 'Hi there'"
+  },
+  "echo": {
+    "title": "Say something",
+    "format": "/echo [string]",
+    "description": "Echo text back to the console",
+    "category": "utility",
+    "params": [
+      {
+        "name": "text",
+        "type": "string",
+        "desc": "Text to echo"
+      }
+    ],
+    "returns": "The same text that was input",
+    "example": "/echo \"Hello World\""
+  },
+  "store": {
+    "title": "Store Last Result",
+    "format": "/store [varname]",
+    "description": "Save the last command's result into a named variable.",
+    "category": "utility",
+    "params": [
+      {
+        "name": "varname",
+        "type": "string",
+        "desc": "Variable name to store the last result into."
+      }
+    ],
+    "returns": "None",
+    "example": "/store myPrice"
+  },
+  "store.tab": {
+    "title": "Store Last Tab Id",
+    "format": "/store.tab [tabalias]",
+    "description": "Save the last tab operation's result's tabId into an alias.",
+    "category": "utility",
+    "params": [
+      {
+        "name": "varname",
+        "type": "string",
+        "desc": "Tab alias to store the last tabId into."
+      }
+    ],
+    "returns": "None",
+    "example": "/store.tab google1"
+  },
+  "extract": {
+    "title": "Extract from JSON Array",
+    "format": "/extract [varname] [pattern]",
+    "description": "Traverse a JSON array variable using an index pattern. Use -1 as a wildcard to match every element at that depth.",
+    "category": "utility",
+    "params": [
+      {
+        "name": "varname",
+        "type": "string",
+        "desc": "Variable name holding a JSON array string."
+      },
+      {
+        "name": "pattern",
+        "type": "JSON array",
+        "desc": "Index path as a JSON array. -1 means every element at that depth. e.g. [0,-1,2]"
+      }
+    ],
+    "returns": "JSON array of matched string values. Also sets $last.",
+    "example": "/extract myData [0,-1,1]"
+  },
+  "pattern": {
+    "title": "Detect Extraction Pattern",
+    "format": "/pattern [varname] [sample1] [sample2]...",
+    "description": "Given a JSON array variable and sample strings, auto-detects the index pattern needed to extract them. Use the result with /extract.",
+    "category": "utility",
+    "params": [
+      {
+        "name": "varname",
+        "type": "string",
+        "desc": "Variable name holding a JSON array string."
+      },
+      {
+        "name": "samples",
+        "type": "string...",
+        "desc": "One or more substrings to locate within the array. The command finds their shared path pattern."
+      }
+    ],
+    "returns": "JSON pattern array usable with /extract. eg. [-1][0][5][-1][0]. Also sets $last.",
+    "example": "/pattern myData \"Order#20391\" \"Order#13349\" \"Note1\""
+  },
+  "ask": {
+    "title": "Ask for answer",
+    "format": "/ask [answerA/answerB/...] [string]",
+    "description": "Ask a question and get a response",
+    "category": "control",
+    "params": [
+      {
+        "name": "answer",
+        "type": "string",
+        "desc": "Multiple options separated by '/'"
+      },
+      {
+        "name": "question",
+        "type": "string",
+        "desc": "Question to ask"
+      }
+    ],
+    "returns": "An predefined answer to the question",
+    "example": "/ask \"Paris/New York\" \"What is the capital of France?\""
+  },
+  "cmp": {
+    "title": "Compare values",
+    "format": "/cmp $[exp1] [operator] $[exp2]",
+    "description": "Compare two values using operators. For run script only.",
+    "category": "control",
+    "params": [
+      {
+        "name": "exp1",
+        "type": "string|number",
+        "desc": "10, abc, $var1 are all valid"
+      },
+      {
+        "name": "operator",
+        "type": "string",
+        "desc": "Comparison operator (==, <> (number), != (string), >, <, >=, <=, includes (substr), in (string in array))"
+      },
+      {
+        "name": "exp2",
+        "type": "string|number",
+        "desc": "20, bcd, $var2 are all valid"
+      }
+    ],
+    "returns": "'true' / 'false",
+    "example": "/cmp 3 > $limit"
+  },
+  "set": {
+    "title": "Assign variable with text",
+    "format": "/set [var] [text]",
+    "description": "assign var = text",
+    "category": "control",
+    "params": [
+      {
+        "name": "var1",
+        "type": "variable",
+        "desc": "First variable (without $)"
+      },
+      {
+        "name": "text",
+        "type": "string",
+        "desc": "any string"
+      }
+    ],
+    "returns": "text",
+    "example": "/set var1 abc"
+  },
+  "eval": {
+    "title": "Assign variable with calculation",
+    "format": "/eval [var] [formula]",
+    "description": "assign var = math formula",
+    "category": "control",
+    "params": [
+      {
+        "name": "var1",
+        "type": "variable",
+        "desc": "First variable (without $)"
+      },
+      {
+        "name": "formula",
+        "type": "string",
+        "desc": "Regular math expression"
+      }
+    ],
+    "returns": "final value",
+    "example": "/eval var1 (2+$var2) ** 2 - $var1 /2"
+  },
+  "csv.import": {
+    "title": "Import CSV File",
+    "format": "/csv.import [varname]",
+    "description": "Opens a file picker, reads the selected CSV file, and stores it as a 2D JSON array (array of rows, each row is an array of cell strings). The first row is included as-is (treat as headers if needed).",
+    "category": "utility",
+    "params": [
+      {
+        "name": "varname",
+        "type": "string",
+        "desc": "Variable name to store the resulting 2D JSON array."
+      }
+    ],
+    "returns": "2D JSON array. Also sets $last.",
+    "example": "/csv.import myData"
+  },
+  "arr.get": {
+    "title": "Get Element",
+    "format": "/arr.get [varname1] [selector]",
+    "description": "Appends a value to the end of a JSON array stored in a variable.",
+    "category": "utility",
+    "params": [
+      {
+        "name": "varname1",
+        "type": "string",
+        "desc": "Variable name holding a JSON array."
+      },
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "property/array selector"
+      }
+    ],
+    "returns": "Updated JSON array string. Also sets $last.",
+    "example": "/arr.get myList queues[0][$v].list"
+  },
+  "arr.push": {
+    "title": "Array Push",
+    "format": "/arr.push [varname1] [varname2]",
+    "description": "Appends a value to the end of a JSON array stored in a variable.",
+    "category": "utility",
+    "params": [
+      {
+        "name": "varname1",
+        "type": "string",
+        "desc": "Variable name holding a JSON array."
+      },
+      {
+        "name": "varname2",
+        "type": "string",
+        "desc": "Variable conttaining new element."
+      }
+    ],
+    "returns": "Updated JSON array string. Also sets $last.",
+    "example": "/arr.push myList \"new item\""
+  },
+  "arr.pop": {
+    "title": "Array Pop",
+    "format": "/arr.pop [varname]",
+    "description": "Removes and returns the last element of a JSON array stored in a variable.",
+    "category": "utility",
+    "params": [
+      {
+        "name": "varname",
+        "type": "string",
+        "desc": "Variable name holding a JSON array."
+      }
+    ],
+    "returns": "The removed element. Also sets $last.",
+    "example": "/arr.pop myList"
+  },
+  "arr.len": {
+    "title": "Array Length",
+    "format": "/arr.len [varname] [jsonVar]",
+    "description": "Returns the length of a JSON array and stores it in a variable.",
+    "category": "utility",
+    "params": [
+      {
+        "name": "varname",
+        "type": "string",
+        "desc": "Variable name to store the length."
+      },
+      {
+        "name": "jsonVar",
+        "type": "string",
+        "desc": "Variable name contaning a JSON array."
+      }
+    ],
+    "returns": "Integer length. Also sets $last.",
+    "example": "/arr.len myLen $myList"
+  },
+  "record": {
+    "title": "Record actions across tabs",
+    "format": "/record [action] [scriptname]",
+    "description": "Record mouse actions, input, and save the actions as [scriptname]",
+    "category": "control",
+    "params": [
+      {
+        "name": "action",
+        "type": "string",
+        "desc": "Either start, stop, pause, or continue"
+      },
+      {
+        "name": "scriptname",
+        "type": "string",
+        "desc": "Only needed for 'start'. New script name saved when stopped."
+      }
+    ],
+    "returns": "A saved new script",
+    "example": "/record start email_leads"
+  },
+  "chromeoffset": {
+    "title": "Set Toolbar+Bookmark height",
+    "format": "/chromeoffset [y]",
+    "description": "Set Y mouse offset in chrome",
+    "category": "control",
+    "params": [
+      {
+        "name": "y",
+        "type": "number",
+        "desc": "y in pixel, offset from top of chrome window to visible html"
+      }
+    ],
+    "returns": "None",
+    "example": "/chromeoffset 88"
+  },
+  "run": {
+    "title": "Run custom script",
+    "format": "/run [script] [flag] [tabId]...",
+    "description": "Execute your custom script from the library.",
+    "slines": "*",
+    "category": "control",
+    "params": [
+      {
+        "name": "script",
+        "type": "string",
+        "desc": "Script identifier in format @owner/name. Use @me/name to use your own script."
+      },
+      {
+        "name": "flag",
+        "type": "string|optional",
+        "desc": "-debug flag starts the script step by step"
+      },
+      {
+        "name": "tabId",
+        "type": "number",
+        "desc": "#TabId (found above the screenshot) to register as the script's tabs:{...} require, in the same order. Var TAB.yourTabName.URL can be set to avoid manual tabId params, in which case, Tahcia will look for connected tab with the exact URL."
+      }
+    ],
+    "returns": "None",
+    "example": "/run @batman/login-script 1304053"
+  },
+  "fork": {
+    "title": "Fork Script",
+    "format": "/fork [script]",
+    "description": "Copy any public or your other script.",
+    "category": "control",
+    "slines": 50,
+    "params": [
+      {
+        "name": "script",
+        "type": "string",
+        "desc": "Script identifier in format @owner/name. Use @me/name to use your own script."
+      }
+    ],
+    "returns": "None",
+    "example": "/fork @batman/login-script"
+  },
+  "schedule": {
+    "title": "Schedule Script",
+    "format": "/schedule [@me/name] [schedule|off]",
+    "description": "Set or clear a schedule for a script. Schedule format: @*[09:00] (daily), @mon[09:00] (weekly every Mon), mon[09:00] (once), @m[30] (every 30 min), m[5] (run once after 5 min).",
+    "slines": 0,
+    "category": "control",
+    "params": [
+      {
+        "name": "script",
+        "type": "string",
+        "desc": "Script in @me/name format"
+      },
+      {
+        "name": "schedule",
+        "type": "string",
+        "desc": "Schedule string or \"off\""
+      }
+    ],
+    "example": "/schedule @me/my-script @*[09:00]"
+  },
+  "wait.element.found": {
+    "title": "Wait for element to show up",
+    "format": "/wait [selector] }",
+    "slines": 1,
+    "category": "control",
+    "params": [
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the element"
+      }
+    ],
+    "example": "/wait.element.found .div1"
+  },
+  "wait.element.gone": {
+    "title": "Wait for element to disappear",
+    "format": "/wait [selector] }",
+    "slines": 1,
+    "category": "control",
+    "params": [
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the element"
+      }
+    ],
+    "example": "/wait.element.gone .div1"
+  },
+  "wait.element.clicked": {
+    "title": "Wait for element click event",
+    "format": "/wait [selector] }",
+    "slines": 1,
+    "category": "control",
+    "params": [
+      {
+        "name": "selector",
+        "type": "string",
+        "desc": "XPath/CSS/Tahcia(:abc) selector of the element"
+      }
+    ],
+    "example": "/wait.element.clicked .div1"
+  },
+  "wait.key.down": {
+    "title": "Wait for key down",
+    "format": "/wait.key.down [key] [...option] }",
+    "slines": 1,
+    "category": "control",
+    "params": [
+      {
+        "name": "key",
+        "type": "string",
+        "desc": "keyboard key"
+      },
+      {
+        "name": "option",
+        "type": "number",
+        "desc": "keyboard key number"
+      }
+    ],
+    "example": "/wait.key.down escape shift ctrl | wait.key.down P cmd ctrl"
+  },
+  "for": {
+    "title": "For loop",
+    "format": "/for [varName] [a] [b] { [syntax] }",
+    "slines": "*",
+    "category": "control",
+    "params": [
+      {
+        "name": "varName",
+        "type": "string",
+        "desc": "Like that in for (varName=....;;). Accessible via vars."
+      },
+      {
+        "name": "a",
+        "type": "integer",
+        "desc": "Starting value of varName"
+      },
+      {
+        "name": "b",
+        "type": "integer",
+        "desc": "End value of varName"
+      },
+      {
+        "name": "syntax",
+        "type": "string",
+        "desc": "Tahcia commands, must start with / and separated by ;"
+      }
+    ],
+    "example": "/func x 1 5 { /func y $x 5 { /echo $x$y; /store printed; /func q data['yes'] = data.printed.includes('4'); return data; } }"
+  },
+  "func": {
+    "title": "Run javascript function to modify vars",
+    "format": "/func [varName] [code]",
+    "slines": "*",
+    "category": "control",
+    "params": [
+      {
+        "name": "varName",
+        "type": "string",
+        "desc": "returned string value from code will be set to vars.varName. If you return an object, vars = returned value. Be careful."
+      },
+      {
+        "name": "code",
+        "type": "string",
+        "desc": "Javascript code (like in a function(data)) that call returns at the end. Do not use \" ` characters"
+      }
+    ],
+    "example": "/func retVar var x = \"\"; for (var i=0;i<10;i++) x+=data.abc; return x;"
+  },
+  "log": {
+    "title": "Verbose setting",
+    "format": "/log [enable/disable/clear]"
+  }
+}

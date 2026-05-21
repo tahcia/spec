@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tahcia.com/schema/script.json",
+  "title": "Tahcia Script",
+  "type": "object",
+  "required": ["command", "script"],
+  "properties": {
+    "tabs": {
+      "type": "array",
+      "description": "Named tab mappings required by the script runtime",
+      "items": {
+        "type": "string"
+      }
+    },
+
+    "command": {
+      "type": "string",
+      "description": "Script identifier"
+    },
+
+    "desc": {
+      "type": "string"
+    },
+
+    "wait": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Global delay between lines in milliseconds"
+    },
+
+    "timeout": {
+      "type": "integer",
+      "minimum": 0
+    },
+
+    "public": {
+      "type": "boolean"
+    },
+
+    "vars": {
+      "type": "object",
+      "description": "Initial runtime variables",
+      "additionalProperties": {
+        "type": ["string", "number", "boolean", "object", "array"]
+      }
+    },
+
+    "script": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/scriptLine"
+      }
+    }
+  },
+
+  "$defs": {
+    "scriptLine": {
+      "type": "object",
+
+      "required": ["command"],
+
+      "properties": {
+        "command": {
+          "type": "string",
+          "description": "Tahcia runtime command",
+          "examples": [
+            "/tab new https://google.com",
+            "/eval total $count + 1",
+            "/cmp $x > 0",
+            "/mac.mouse.click 100 200"
+          ]
+        },
+
+        "tab": {
+          "type": "string",
+          "description": "Target tab alias"
+        },
+
+        "tag": {
+          "type": "string",
+          "description": "Jump label"
+        },
+
+        "hold": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Delay after command execution"
+        },
+
+        "output": {
+          "type": "string",
+          "description": "Store output into variable"
+        },
+
+        "next": {
+          "type": "object",
+          "description": "Conditional jump mapping",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "examples": [
+            {
+              "true": "loop",
+              "false": "done"
+            }
+          ]
+        }
+      },
+
+      "additionalProperties": false
+    }
+  }
+}
