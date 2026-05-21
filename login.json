@@ -1,0 +1,22 @@
+{
+    "tabs": ["tab1"],
+    "command": "login",
+    "desc": "new command",
+    "script": [
+        {"command": "/focus"},
+        {"command": "/mac.mouse.move 400 300 100"},
+        {"command": "/mac.mouse.click 450 310"},
+        {"command": "/mac.key.type $email"},
+        {"command": "/mac.mouse.click 450 385"},
+        {"command": "/mac.key.type $pass"},
+        {"command": "/click :IDzHiowt7hti93AgnyhRpiurkEZNR2elvnfirSs2GnaT6hav5GDslpb63m"},
+        {"command": "/screenshot"},
+        {"command": "/tab console"}
+    ],
+    "vars": {
+        "pass": "mypassword",
+        "email": "abc@hello.com"
+    },
+    "wait": 500,
+    "public": true
+}
