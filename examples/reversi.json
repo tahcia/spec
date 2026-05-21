@@ -1,0 +1,28 @@
+{
+    "tabs": ["gameTab"],
+    "command": "reversi",
+    "desc": "Figuring out next reversi game move",
+    "script": [
+        {"command" : "/screenshot disable"},
+        {"tag":"start","command": "/wait.key.down 9 ctrl"},
+        {"command": "/screenshot"},
+        {"command" : "/tab console"},
+        {"command" : "/clear"},
+        {"command": "/for x 0 7 { for y 0 7 { /eval xx $x1 + $x *( $x2-$x1 )/7; /eval yy $y1 + $y *( $y2-$y1 )/7;  /ss.pixel $xx $yy; /arr.get last hex; /store color_$x$y }  }"},
+        {"command": "/func solve let f = () => { const parse = h => h ? [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)] : [0,0,0]; const dist = (c1, c2) => Math.sqrt(c1.reduce((acc,cur,i)=>acc+Math.pow(cur-c2[i],2),0)); const W=[249,255,251], B=[16,30,23], G=[20,153,111]; const b = Array.from({length:8},(_,r)=>Array.from({length:8},(_,c)=>{ let h=data['color_'+r+c], curr=parse(h); let dW=dist(curr,W), dB=dist(curr,B), dG=dist(curr,G); if(dW < dB && dW < dG) return 1; if(dB < dW && dB < dG) return -1; return 0; })); let e = b.flat().filter(v=>v===0).length; data.move_left=e; if(e > 20){ data.suggested_x=-1; data.suggested_y=-1; return data; } const drs = [[0,1],[0,-1],[1,0],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]]; const getF = (b,r,c,p) => { let fls=[]; for(let [dr,dc] of drs){ let nr=r+dr,nc=c+dc,pts=[]; while(nr>=0&&nr<8&&nc>=0&&nc<8){ if(b[nr][nc]===-p)pts.push([nr,nc]); else if(b[nr][nc]===p){if(pts.length>0)fls.push(...pts); break;} else break; nr+=dr;nc+=dc; } } return fls; }; const sim = (b,r,c,p) => { let nb=b.map(l=>[...l]); getF(nb,r,c,p).forEach(([fr,fc])=>nb[fr][fc]=p); nb[r][c]=p; return nb; }; const ev = b => b.flat().reduce((a,v)=>a+v,0); const slv = (b,p,a,beta) => { let mvs=[]; for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(b[r][c]===0&&getF(b,r,c,p).length>0)mvs.push({r,c}); if(!mvs.length){ let om=[]; for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(b[r][c]===0&&getF(b,r,c,-p).length>0)om.push({r,c}); return om.length?slv(b,-p,a,beta):ev(b); } if(p===1){ let v=-65; for(let m of mvs){ v=Math.max(v,slv(sim(b,m.r,m.c,p),-p,a,beta)); a=Math.max(a,v); if(beta<=a)break; } return v; } else { let v=65; for(let m of mvs){ v=Math.min(v,slv(sim(b,m.r,m.c,p),-p,a,beta)); beta=Math.min(beta,v); if(beta<=a)break; } return v; } }; let rm=[]; for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(b[r][c]===0&&getF(b,r,c,1).length>0)rm.push({r,c}); let bs=-65,ch={r:-1,c:-1}; for(let m of rm){ let s=slv(sim(b,m.r,m.c,1),-1,-65,65); if(s>bs){bs=s;ch=m;} } data.suggested_x=ch.r; data.suggested_y=ch.c; return data; }; return f();"},
+        {"command" : "/eval xx $x1 + $suggested_x *( $x2-$x1 )/7"},
+        {"command" : "/eval yy $y1 + $suggested_y *( $y2-$y1 )/7"},
+        {"command" : "/focus"},
+        {"command" : "/point $xx $yy"},
+        {"command" : "/packman"},
+        {"command" : "/note show suggested. move $move_left left"},
+        {"command": "/cmp $loop = 1", "next":{"true": "start"}, "hold": 1000}
+    ],
+    "vars": {
+        "x1": 0.28807459512514316,
+        "x2": 0.5483162347222547,
+        "y1": 0.1288871068341798,
+        "y2": 0.6079034126347679, "loop":1
+    },
+    "public": true,"wait":100
+}
