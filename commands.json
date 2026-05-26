@@ -1,7 +1,7 @@
 {
-  "ai.ask": {
+  "ai.llm": {
     "title": "Prompt to AI",
-    "format": "/ai.ask [model] [text]",
+    "format": "/ai.llm [model] [text]",
     "description": "Send your prompt to llm",
     "category": "control",
     "params": [
@@ -17,11 +17,11 @@
       }
     ],
     "returns": "response from AI",
-    "example": "/ai.ask gemini what is the latest tech bubble?"
+    "example": "/ai.llm gemini what is the latest tech bubble?"
   },
-  "ai.act": {
+  "ai.do": {
     "title": "Tell AI what to do",
-    "format": "/ai.act [model] [ask]",
+    "format": "/ai.do [model] [ask]",
     "description": "Ask AI to perform simple stuff for you in current tab. sLines fees apply.",
     "category": "control",
     "slines": "*",
@@ -38,7 +38,28 @@
       }
     ],
     "returns": "response from AI",
-    "example": "/ai.act gemini Login with abc@email.com and password abc"
+    "example": "/ai.do gemini Login with abc@email.com and password abc"
+  },
+  "ai.ask": {
+    "title": "Tell AI what to do, it will do whatever until it thinks it's over",
+    "format": "/ai.ask [model] [ask]",
+    "description": "Ask AI to perform stuff indefinitely until your sLines runs out or your for you in current tab. sLines fees apply.",
+    "category": "control",
+    "slines": "*",
+    "params": [
+      {
+        "name": "model",
+        "type": "string",
+        "desc": "Currently must be 'gemini'"
+      },
+      {
+        "name": "text",
+        "type": "string",
+        "desc": "Tell AI what you want to achieve. Be specific, eg. Buy garlic here on instacart."
+      }
+    ],
+    "returns": "response from AI",
+    "example": "/ai.do gemini Login with abc@email.com and password abc"
   },
   "chrome": {
     "title": "Open google chrome",
