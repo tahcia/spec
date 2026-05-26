@@ -1,18 +1,44 @@
 {
-  "*": {
-    "title": "Write to AI",
-    "format": "[text]",
-    "description": "Any command without / start will go to AI window.",
-    "category": "tab",
+  "ai.ask": {
+    "title": "Prompt to AI",
+    "format": "/ai.ask [model] [text]",
+    "description": "Send your prompt to llm",
+    "category": "control",
     "params": [
+      {
+        "name": "model",
+        "type": "string",
+        "desc": "Currently must be 'gemini'"
+      },
       {
         "name": "text",
         "type": "string",
-        "desc": "Tell AI in console"
+        "desc": "Tell AI what you need. Use [_VAR.varname] to get a value from LLM. That value will be stored in [vars]."
       }
     ],
-    "returns": "None",
-    "example": "Hi Tahcia"
+    "returns": "response from AI",
+    "example": "/ai.ask gemini what is the latest tech bubble?"
+  },
+  "ai.act": {
+    "title": "Tell AI what to do",
+    "format": "/ai.act [model] [ask]",
+    "description": "Ask AI to perform simple stuff for you in current tab. sLines fees apply.",
+    "category": "control",
+    "slines": "*",
+    "params": [
+      {
+        "name": "model",
+        "type": "string",
+        "desc": "Currently must be 'gemini'"
+      },
+      {
+        "name": "text",
+        "type": "string",
+        "desc": "Tell AI what you want with current page. Be specific, eg. Remove that banner, open my dashboard."
+      }
+    ],
+    "returns": "response from AI",
+    "example": "/ai.act gemini Login with abc@email.com and password abc"
   },
   "chrome": {
     "title": "Open google chrome",
