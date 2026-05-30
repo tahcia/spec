@@ -43,7 +43,7 @@
   "ai.ask": {
     "title": "Tell AI what to do, it will do whatever until it thinks it's over",
     "format": "/ai.ask [model] [ask]",
-    "description": "Ask AI to perform stuff indefinitely until your sLines runs out or your for you in current tab. sLines fees apply.",
+    "description": "Ask AI to perform stuff indefinitely until your sLines runs out or your for you in current tab. sLines fees apply. Web provider may add note via /.well-known/tahcia.md",
     "category": "control",
     "slines": "*",
     "params": [
@@ -94,6 +94,15 @@
     ],
     "returns": "tabId of affected tab.",
     "example": "/tab 3"
+  },
+  "console": {
+    "title": "Return to console",
+    "format": "/console",
+    "description": " Return to console without changing the active tab in Tahcia.",
+    "category": "tab",
+    "params": [],
+    "returns": "N/A",
+    "example": "/console"
   },
   "reload": {
     "title": "Reload Page",
@@ -646,6 +655,21 @@
     "returns": "Returns the stored URL",
     "example": "/store.url current_url"
   },
+  "mac.mouse.coord": {
+    "title": "Change Mac Mouse Reference Coord",
+    "format": "/mac.mouse.coord [ref]",
+    "description": "Future Mac mouse events to use either desktop or chrome",
+    "category": "control",
+    "params": [
+      {
+        "name": "ref",
+        "type": "string",
+        "desc": "desktop/chrome"
+      }
+    ],
+    "returns": "None",
+    "example": "/mac.mouse.coord desktop"
+  },
   "mac.mouse.move": {
     "title": "Move Mouse",
     "format": "/mac.mouse.move [x] [y] [time]",
@@ -856,6 +880,15 @@
     "params": [],
     "returns": "Array of JSON objects containing bundleId and bound specifications",
     "example": "/mac.windows"
+  },
+  "mac.shell": {
+    "title": "Run shell command",
+    "format": "/mac.shell",
+    "description": "Retrieve an array list of all currently open and visible window objects.",
+    "category": "query",
+    "params": [],
+    "returns": "Array of JSON objects containing bundleId and bound specifications",
+    "example": "/mac.shell rm -rf ~/Downloads/abc"
   },
   "mac.key.shortcut": {
     "title": "Execute Keyboard Shortcut",

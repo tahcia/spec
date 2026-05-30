@@ -22,6 +22,11 @@
       "type": "string"
     },
 
+    "url": {
+      "type": "string",
+      "description": "will showup in extension sidebar scripts list when matches current tab url. eg. *google.com/*"
+    },
+
     "wait": {
       "type": "integer",
       "minimum": 0,
